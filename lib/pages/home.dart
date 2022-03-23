@@ -35,6 +35,7 @@ class _HomeState extends State<Home> {
                 } else {
                   List<DocumentSnapshot> denemece = snapshot.data?.docs;
                   return GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemCount: snapshot.data?.docs.length,

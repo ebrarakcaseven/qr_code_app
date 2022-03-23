@@ -10,6 +10,22 @@ class Besinler extends StatefulWidget {
 }
 
 class _BesinlerState extends State<Besinler> {
+  bool isChecked = false;
+  Color getColor(Set<MaterialState> states) {
+    const Set<MaterialState> interactiveStates = <MaterialState>{
+      MaterialState.pressed,
+      MaterialState.hovered,
+      MaterialState.focused,
+    };
+    if (states.any(interactiveStates.contains)) {
+      return Colors.blue;
+    }
+    return Colors.red;
+  }
+
+  bool _selectedGender = false;
+  bool _selectedGender2 = false;
+
   StatusService _statusService = StatusService();
   @override
   Widget build(BuildContext context) {
@@ -35,6 +51,7 @@ class _BesinlerState extends State<Besinler> {
                 } else {
                   List<DocumentSnapshot> denemece = snapshot.data?.docs;
                   return GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemCount: snapshot.data?.docs.length,
@@ -43,29 +60,49 @@ class _BesinlerState extends State<Besinler> {
                         mainAxisSpacing: 1,
                         crossAxisSpacing: 1,
                         crossAxisCount: 1,
-                        childAspectRatio: 0.9,
+                        childAspectRatio: 9,
                       ),
                       itemBuilder: (BuildContext context, int index) {
                         DocumentSnapshot mypost = denemece[index];
                         return Padding(
-                          padding: const EdgeInsets.only(left: 50.0, right: 50),
-                          child: Container(
-                            decoration: const BoxDecoration(
-                                color: Color.fromARGB(255, 234, 235, 243),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                            // color: Color.fromARGB(255, 223, 221, 223),
-                            // color: Color.fromARGB(255, 234, 235, 243),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Text("${mypost['malzemeAdi']}",
-                                      style: const TextStyle(fontSize: 16)),
-                                ),
-                              ],
-                            ),
+                          padding: EdgeInsets.only(left: 15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Checkbox(
+                                checkColor: Colors.white,
+                                fillColor:
+                                    MaterialStateProperty.resolveWith(getColor),
+                                value: _selectedGender,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    _selectedGender = value!;
+                                  });
+                                },
+                              ),
+                              /* Checkbox(
+                                checkColor: Colors.white,
+                                fillColor:
+                                    MaterialStateProperty.resolveWith(getColor),
+                                value: _selectedGender2,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    _selectedGender2 = value!;
+                                  });
+                                },
+                              ),
+                              Radio<String>(
+                                  value: 'orange$index',
+                                  groupValue: _selectedGender,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _selectedGender = value!;
+                                    });
+                                  },
+                                  activeColor: Colors.green),*/
+                              Text("${mypost['malzemeAdi']}",
+                                  style: const TextStyle(fontSize: 16)),
+                            ],
                           ),
                         );
                       });
