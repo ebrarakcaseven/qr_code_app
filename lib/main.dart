@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/nav.dart';
+import 'package:qr_code_app/pages/login.dart';
 
 void main() async {
   try {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Nav(),
+      home: LoginPage(),
     );
   }
 }
